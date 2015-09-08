@@ -31,6 +31,14 @@ Facter.add(:rsyslog_version) do
           else
             nil
           end
+        when "Solaris"
+          command='pkg info rsyslog 2>/dev/null| grep Version:'
+          version = Facter::Util::Resolution.exec(command).strip.split[1]
+          if version =~ /^([\d.]+)$/
+            $1
+          else
+            nil
+          end
         else
             nil
         end
